@@ -317,17 +317,17 @@ CGFloat menuContainerView_start = 100.0f;
 - (MVYSideMenuPanResultInfo)panResultInfoForVelocity:(CGPoint)velocity {
 	
 	static CGFloat thresholdVelocity = 450.0f;
-	CGFloat pointOfNoReturn = floorf([self closedOriginX] / 2.0f);
+	CGFloat pointOfNoReturn = floorf([self closedOriginX] / 2.0f) + 20;
 	CGFloat menuOrigin = self.menuContainerView.frame.origin.x;
 	
 	MVYSideMenuPanResultInfo panInfo = {MVYSideMenuClose, NO, 0.0f};
 	
-	panInfo.menuAction = menuOrigin <= pointOfNoReturn ? MVYSideMenuClose : MVYSideMenuOpen;
+	panInfo.menuAction = menuOrigin >= pointOfNoReturn ? MVYSideMenuClose : MVYSideMenuOpen;
 	
-	if (velocity.x >= thresholdVelocity) {
+	if (velocity.x <= thresholdVelocity) {
 		panInfo.menuAction = MVYSideMenuOpen;
 		panInfo.velocity = velocity.x;
-	} else if (velocity.x <= (-1.0f * thresholdVelocity)) {
+	} else if (velocity.x >= (1.0f * thresholdVelocity)) {
 		panInfo.menuAction = MVYSideMenuClose;
 		panInfo.velocity = velocity.x;
 	}
