@@ -390,7 +390,7 @@ CGFloat menuContainerView_start = 100.0f;
 - (void)openMenuWithVelocity:(CGFloat)velocity {
 	
 	CGFloat menuXOrigin = self.menuContainerView.frame.origin.x;
-	CGFloat finalXOrigin = 0.0f;
+	CGFloat finalXOrigin = menuContainerView_start;
 	
 	CGRect frame = self.menuContainerView.frame;
 	frame.origin.x = finalXOrigin;
