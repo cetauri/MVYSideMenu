@@ -35,6 +35,8 @@ typedef struct {
 
 @implementation MVYSideMenuController
 
+CGFloat menuContainerView_start = 100.0f;
+
 - (id)initWithCoder:(NSCoder *)aDecoder {
 	
 	self = [super initWithCoder:aDecoder];
@@ -334,7 +336,7 @@ typedef struct {
 }
 
 - (BOOL)isMenuOpen {
-	return self.menuContainerView.frame.origin.x == 0.0f;
+    return self.menuContainerView.frame.origin.x == menuContainerView_start;
 }
 
 - (BOOL)isMenuHidden {
@@ -342,16 +344,16 @@ typedef struct {
 }
 
 - (CGFloat)closedOriginX {
-	return - self.menuFrame.size.width;
+    return self.view.bounds.size.width;//+ self.menuFrame.size.width +
 }
 
 - (CGRect)applyTranslation:(CGPoint)translation toFrame:(CGRect)frame {
 	
 	CGFloat newOrigin = frame.origin.x;
     newOrigin += translation.x;
-	
-    CGFloat minOrigin = [self closedOriginX];
-    CGFloat maxOrigin = 0.0f;
+    
+    CGFloat minOrigin = menuContainerView_start;
+    CGFloat maxOrigin = [self closedOriginX];
     CGRect newFrame = frame;
     
     if (newOrigin < minOrigin) {
@@ -538,9 +540,10 @@ typedef struct {
 }
 
 - (void)addLeftMenuButtonWithImage:(UIImage *)buttonImage {
-	
-	UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:buttonImage style:UIBarButtonItemStyleBordered target:self action:@selector(toggleMenu)];
-	self.navigationItem.leftBarButtonItem = menuButton;
+    
+    UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:buttonImage style:UIBarButtonItemStyleBordered target:self action:@selector(toggleMenu)];
+    //	self.navigationItem.leftBarButtonItem = menuButton;
+    self.navigationItem.rightBarButtonItem = menuButton;
 }
 
 - (void)toggleMenu {
